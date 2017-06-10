@@ -56,9 +56,9 @@ var shaderUniforms = {
 
 function flameCreate(size) {
 	size = size || 5;
-	var noiseImage = 'assets/img/texture/noise_texture.png';
-	var rainbowImage = 'assets/img/texture/rainbow.png';
-	var gradImage = 'assets/img/texture/grad.png';
+	var noiseImage = 'flameAssets/img/texture/noise_texture.png';
+	var rainbowImage = 'flameAssets/img/texture/rainbow.png';
+	var gradImage = 'flameAssets/img/texture/grad.png';
 	var geom = new THREE.Geometry(); 
 	var halfSize = size/2;
 	var v1 = new THREE.Vector3(-halfSize,0,0);
@@ -73,16 +73,17 @@ function flameCreate(size) {
 	geom.faces.push( new THREE.Face3( 0, 1, 2 ), new THREE.Face3( 2, 1, 3 ));
 	
 	var minX = 0.0;
-	var maxY = 1;
+	var maxY = 0.9;
+	var minY = 0.01;
 	 geom.faceVertexUvs[0].push([
-        new THREE.Vector2(minX,0),
+        new THREE.Vector2(minX,minY),
         new THREE.Vector2(minX,maxY),
-        new THREE.Vector2(1-minX,0)
+        new THREE.Vector2(1-minX,minY)
     ]);
 	
 	 geom.faceVertexUvs[0].push([
-        new THREE.Vector2(1- minX,0),
-        new THREE.Vector2(0,maxY),
+        new THREE.Vector2(1- minX,minY),
+        new THREE.Vector2(minY,maxY),
         new THREE.Vector2(1-minX,maxY)
     ]);
 	
@@ -97,6 +98,8 @@ function flameCreate(size) {
 	rainbowTexture.wrapT = THREE.RepeatWrapping;
 	
 	var gradTexture = new THREE.ImageUtils.loadTexture( gradImage );
+	gradTexture.wrapS = THREE.RepeatWrapping;
+	gradTexture.wrapT = THREE.RepeatWrapping;
 	
 	shaderUniforms.noise.value = noiseTexture;
 	shaderUniforms.rainbow.value = rainbowTexture;
@@ -187,7 +190,7 @@ function initializeScene() {
 
   var flameSize = 600;
   flame = flameCreate(flameSize);
-  flame.position.set(flameSize/2, 0, 0);
+  flame.position.set(flameSize/2, flameSize/3, 0);
   scene.add(flame);
 
 }

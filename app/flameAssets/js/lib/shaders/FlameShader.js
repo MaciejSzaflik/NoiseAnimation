@@ -35,17 +35,18 @@ THREE.FlameShader = {
     "varying vec2 vUv;",
 
     "void main() {",
-	"vec2 aUvs = vec2(vUv.x ,vUv.y - time*0.01);",
-	"vec2 bUvs = vec2(vUv.x ,vUv.y - time*0.05);",
+	"vec2 aUvs = vec2(vUv.x ,vUv.y - time*0.03);",
+	"vec2 bUvs = vec2(vUv.x ,vUv.y - time*0.06);",
     "float uvChange = texture2D(noise, aUvs).r;",
 	"uvChange+=texture2D(noise, bUvs).g;",
 	"uvChange*=texture2D(rainbow, vUv).a;",
 	"uvChange*=texture2D(grad, vUv).r;",
 	"vec2 cUvs = vec2(vUv.x ,vUv.y + uvChange);",
 	"float g = texture2D(rainbow, cUvs).g;",
+	"float b = texture2D(rainbow, vUv).b;",
 	"float r = texture2D(rainbow, cUvs).r;",
-	"float a = texture2D(rainbow, vUv).a;",
-	"gl_FragColor = vec4(g,g+r,g+r,g+r);",
+	"float a = texture2D(rainbow, cUvs).a;",
+	"gl_FragColor = vec4(g,g+r,g+r,a);",
 
     "}"
 
